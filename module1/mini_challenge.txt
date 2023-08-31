@@ -1,0 +1,48 @@
+Module 1 Mini-Challenge 
+
+1.You are asked to create a directory with PowerShell named. ‘C:\mydir’
+Ans : New-Item -Path 'D:\powershell\MyDir' -ItemType Directory
+
+2.Now you have to create two text files in there with PowerShell named 1.txt and 2.txt. These can be empty.
+Ans : New-Item -Path 'D:\powershell\MyDir\1.txt' -ItemType File
+      New-Item -Path 'D:\powershell\MyDir\2.txt' -ItemType File
+
+3.Now you have to create two .jpg files in there with PowerShell named 1.jpg and 2.jpg. Doesn’t have to be an actual picture.
+Ans :  New-Item -Path 'D:\powershell\MyDir\1.jpg' -ItemType File
+       New-Item -Path 'D:\powershell\MyDir\2.jpg' -ItemType File
+
+4.Remove all the files 1.txt,2.txt,1.jpg and 2.jpg in a one liner using the pipeline. So you have to use one line, using a pipeline if you can
+Ans : Get-ChildItem -File 'D:\powershell\MyDir\' | Remove-Item
+
+Do 2 and 3 again.
+
+5.Now with a one-liner remove the text files with the property extension (.txt) , so all the .txt files from the ‘C:\MyDir’ directory, 
+leaving the two ‘.jpg’ 1.jpg and 2.jpg files intact! 
+Don’t remove the ‘C:\MyDir’ folder.
+
+Ans: soln1 : Get-ChildItem -File 'D:\powershell\MyDir\*.txt' | Remove-Item 
+     soln2 : Get-ChildItem -Path 'D:\powershell\MyDir\' | Where-Object{$PSItem.Extension -eq '.txt'} | Remove-Item 
+
+All in the name of science… sorry again but restore 1.txt and 2.txt in other words create them again in the ‘C:\MyDir’ directory 
+
+6.Now with a one-liner move (not remove) the text files with the property extension (.txt) , so all the .txt files from the ‘C:\MyDir’ directory, leaving the two ‘.jpg’ 1.jpg and 2.jpg files intact to a new directory called ‘C:\Moved’ 
+Ans : Get-ChildItem -Path 'D:\powershell\MyDir\' |Where-Object{$PSItem.Extension -eq '.txt'} | Move-Item -Destination 'D:\powershell\Moved'
+
+######################################################
+7.Now for something completely different… Create 4 local users. User1 and User2 will have the description ‘sales’. User3 and User4 will have the description ‘support’.
+Ans : $password = ConvertTo-SecureString 'pass@123' -AsPlainText -Force
+      New-LocalUser -Name "User1" -Password $password  -Description "sales"
+      New-LocalUser -Name "User2" -Password $password  -Description "sales"
+      New-LocalUser -Name "User3" -Password $password  -Description "support"
+      New-LocalUser -Name "User4" -Password $password  -Description "support"
+
+8.Your boss wants you to disable the sales users and change their description into ‘disabled’ (This can be tricky!!)
+Ans :   Get-LocalUser | Where-Object{$PSItem.Description -eq 'sales'} | Disable-LocalUser
+        Get-LocalUser | Where-Object{$PSItem.Description -eq 'sales'} | Set-LocalUser -Description 'disabled'
+
+######################################################
+9.Retrieve all the processes on your screen with a handle count less than 100. (This is tricky, try looking up how to say ‘less than’ in PowerShell).
+Ans : Get-Process | Where-Object{$PSItem.HandleCount -lt 100}
+
+
+

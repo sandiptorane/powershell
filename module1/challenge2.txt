@@ -1,0 +1,27 @@
+1.Show all services that are running on your screen.
+Ans : Get-Service | Where-Object {$PSItem.Status -eq 'running'}
+
+2.Display the spooler service on your screen with the Where-Object cmdlet.
+Ans : Get-Service | Where-Object {$PSItem.Name -eq 'spooler'}
+
+3.Show the properties and methods of the Get-Service Cmdlet.
+Ans : Get-Service | Get-Member
+
+4.Create 2 new local users named Bobby and Sandra with PowerShell in your computer. If your name happens to be Bobby or 
+Sandra please pick another name. This can be tricky. If you don’t succeed. Please create the two accounts manually.
+Ans : $password = ConvertTo-SecureString 'pass@123' -AsPlainText -Force 
+      New-LocalUser -Name "Bobby" -Password $password -FullName "test User" -Description "Test user"
+      
+      New-LocalUser -Name "Sandra" -Password $password -FullName "Sandra test user" -Description "Test user"
+
+5.Now your boss wants you to show all enabled accounts on your machine. Think of which Cmdlets you need .
+Ans : Get-LocalUser | Where-Object {$PSItem.Enabled -eq  $True}
+
+6.Now your boss wants you to do the same as in assignment 5, but he wants those enabled accounts outputted to a .txt file.
+Ans : Get-LocalUser | Where-Object {$PSItem.Enabled -eq  $True} | Out-File -FilePath 'D:\powershell\enabled_local_users.txt'
+
+7.Same as 5 again, but now to a basic CSV file.
+Ans : Get-LocalUser | Where-Object {$PSItem.Enabled -eq  $True} | Export-Csv -Path 'D:\powershell\enabled_local_users.csv' -NoTypeInformation
+
+8.The same as 7 but he only needs the Name,Enabled and description properties.
+Get-LocalUser | Where-Object {$PSItem.Enabled -eq  $True} | Select-Object -Property Name, Enabled, Description | Export-Csv -Path 'D:\powershell\enabled_local_users2.csv' -NoTypeInformation

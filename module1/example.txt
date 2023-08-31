@@ -1,0 +1,56 @@
+*cmdlets
+Get-Service
+Get-LocalUser
+
+---Challenge 1
+1) get disk info : Get-Disk
+2) get volumes : Get-Volume
+3) get c volume : Get-Volume -DriveLetter 'C'
+4) Start service using pipelint : Get-Service | Stop-Service -Name 'spooler'
+5) Create local user : New-LocalUser -Name 'Test-Poweshell' -Description 'test local user' -NoPassword
+
+*Store output to file
+Get-Service | Format-List | Out-File -FilePath 'C:\Users\Perennial\test\services.txt'
+
+*Properties 
+1) Get-LocalUser using SID
+Get-LocalUser -SID 'S-1-5-21-353461443-2450184327-2462028233-1001' | Format-List
+
+* Get by parameter
+ex. 1)Get-Service -Name 'spooler'
+    2) Get-Service -DisplayName 'Print spooler'
+
+*Where object to filter properties & Data type
+1) Get services where status in running
+Get-Service | Where-Object {$PSItem.Status -eq 'running'}
+
+2) Get service and save to reports.txt
+Get-Service | Where-Object {$PSItem.Status -eq 'running'} | Out-File -FilePath 'C:\Users\Perennial\test\reports.txt'
+
+3) get enabled services
+Get-Service | Where-Object {$PSItem.Enabled -eq $True} // use $True instead 'True' because boolean type 
+
+*Select 
+Get-Service | Select-Object -Last 5
+Get-Service | Select-Object -Property Name,Status
+
+*Sorting
+ Get-Service | Sort-Object -Property name -Descending
+
+*Export to csv
+Get-Service | Export-Csv -Path 'test\test.csv' -NoTypeInformation
+-NoTypeInformation is to skip type details
+
+Fetch specific information
+Get-Service | Select-Object -Property name, description | Export-Csv -Path 'C:Users\Perennial\test\test_specific.csv' -NoTypeInformation -Delimiter ','
+
+Note- don't use format-list in export csv,
+      first use where then select if you are using both in same query
+
+
+*Variables in powershell
+1) using [string]$data or [int]$Number to tell powershell what data to you want
+2) $MyVariable.GetType() to get what kin of variable
+
+
+
